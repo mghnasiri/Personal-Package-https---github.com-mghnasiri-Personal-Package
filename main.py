@@ -38,7 +38,6 @@ def main():
 
 
     cities = parse_coordinates(data_path)
-    cities = parse_coordinates(data_path)
 
     print(cities)  # Assuming you want to print this based on your original script
     model = solve_TSP_MTZ_problem(G, dem_points, depot, k)
