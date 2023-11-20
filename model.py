@@ -71,3 +71,24 @@ def solve_TSP_MTZ_problem(G, dem_points, depot, k):
 
     m.optimize()
     return m
+
+def get_optimization_results(model):
+    """
+    Extracts key information from a Gurobi optimization model.
+    """
+    results = {
+        'Optimal Value': None,
+        'Number of Iterations': None,
+        'Runtime (seconds)': None,
+        'Status': None
+    }
+
+    if model.status == GRB.OPTIMAL:
+        results['Optimal Value'] = model.ObjVal
+        results['Number of Iterations'] = model.IterCount
+        results['Runtime (seconds)'] = model.Runtime
+        results['Status'] = 'Optimal'
+    else:
+        results['Status'] = 'Not Optimal'
+
+    return results
