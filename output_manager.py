@@ -3,9 +3,10 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 # Function for visualizing the graph and displaying results in a table
-def visualize_graph(G, depot, nx, x, my_pos, results):
+def visualize_graph(G, depot, nx, x, my_pos, results,dataset_name_with_extension):
     # Create a figure with two subplots (one for the graph and one for the table)
     fig = plt.figure(figsize=(10, 8))
+    fig.canvas.manager.set_window_title(dataset_name_with_extension)
 
     # Create a subplot for the graph
     ax1 = fig.add_subplot(211)  # 2 rows, 1 column, 1st subplot
@@ -27,7 +28,10 @@ def visualize_graph(G, depot, nx, x, my_pos, results):
     ax2 = fig.add_subplot(212)  # 2 rows, 1 column, 2nd subplot
     ax2.axis('tight')
     ax2.axis('off')
+
     ax2.table(cellText=[list(results.values())], colLabels=list(results.keys()), cellLoc='center', loc='center')
 
     plt.tight_layout()
-    plt.show()
+    plt.show
+   
+

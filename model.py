@@ -24,7 +24,7 @@ def parse_coordinates(data_path):
                 break
             if coord_section:
                 city_info = line.split()
-                cities.append((int(city_info[0]), int(city_info[1]), int(city_info[2])))
+                cities.append((float(city_info[0]), float(city_info[1]), float(city_info[2])))
             if "NODE_COORD_SECTION" in line:
                 coord_section = True
     return cities
@@ -68,7 +68,9 @@ def solve_TSP_MTZ_problem(G, dem_points, depot, k):
     # Configure the model to find multiple solutions
     m.setParam(GRB.Param.PoolSolutions, 10)  # Store the 10 best solutions
     m.setParam(GRB.Param.PoolSearchMode, 2)  # Search for more than one optimal solution
-
+    # Set the time limit (in seconds)
+    time_limit = 60  # for example, 60 seconds
+    m.setParam(GRB.Param.TimeLimit, time_limit)
     m.optimize()
     return m
 
@@ -87,8 +89,27 @@ def get_optimization_results(model):
         results['Optimal Value'] = model.ObjVal
         results['Number of Iterations'] = model.IterCount
         results['Runtime (seconds)'] = model.Runtime
+        results['MIP Gap'] = model.MIPGap if model.IsMIP else 'N/A'  # Set MIP Gap
         results['Status'] = 'Optimal'
+    elif model.status == GRB.TIME_LIMIT:
+        results['Optimal Value'] = model.ObjVal
+        results['Number of Iterations'] = model.IterCount
+        results['Runtime (seconds)'] = model.Runtime
+        results['MIP Gap'] = model.MIPGap if model.IsMIP else 'N/A'  # Set MIP Gap
+
+        results['Status'] = 'Passed the time limit.'
+        # You can still extract and return the best found solution here, if needed
     else:
         results['Status'] = 'Not Optimal'
 
     return results
+
+def get_dimension_from_tsp(file_path):
+    with open(file_path, 'r') as file:
+        for line in file:
+            if line.startswith("DIMENSION"):
+                # Extract the dimension value
+                _, dimension = line.split(':')
+                return int(dimension.strip())
+
+    return None
