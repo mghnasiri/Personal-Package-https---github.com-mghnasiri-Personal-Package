@@ -7,13 +7,18 @@ from gurobipy import GRB
 import math
 
 # Function to create and initialize the graph
-def create_graph(data_subset,num_data_points):
+
+
+def create_graph(data_subset, num_data_points):
     n = len(data_subset) - 1
-    G = nx.complete_graph(num_data_points, nx.DiGraph()) # directed graph with a vertex for each city
+    # directed graph with a vertex for each city
+    G = nx.complete_graph(num_data_points, nx.DiGraph())
     # Add any additional logic for graph initialization
     return G
 
 # Function to parse coordinates (if this is a separate logic in your code)
+
+
 def parse_coordinates(data_path):
     with open(data_path, 'r') as file:
         lines = file.readlines()
@@ -24,14 +29,16 @@ def parse_coordinates(data_path):
                 break
             if coord_section:
                 city_info = line.split()
-                cities.append((float(city_info[0]), float(city_info[1]), float(city_info[2])))
+                cities.append((float(city_info[0]), float(
+                    city_info[1]), float(city_info[2])))
             if "NODE_COORD_SECTION" in line:
                 coord_section = True
     return cities
 
 
-def eucl_dist(x1,y1,x2,y2):
-    return round (math.sqrt( (x1-x2)**2 + (y1-y2)**2 ))
+def eucl_dist(x1, y1, x2, y2):
+    return round(math.sqrt((x1-x2)**2 + (y1-y2)**2))
+
 
 def solve_TSP_MTZ_problem(G, dem_points, depot, k):
     """
@@ -50,29 +57,35 @@ def solve_TSP_MTZ_problem(G, dem_points, depot, k):
     x = m.addVars(G.edges, vtype=GRB.BINARY)
 
     # Set the objective function
-    m.setObjective(gp.quicksum(G.edges[i, j]['length'] * x[i, j] for i, j in G.edges), GRB.MINIMIZE)
+    m.setObjective(gp.quicksum(
+        G.edges[i, j]['length'] * x[i, j] for i, j in G.edges), GRB.MINIMIZE)
 
     # Enter each demand point once
-    m.addConstrs(gp.quicksum(x[i, j] for i in G.predecessors(j)) == 1 for j in dem_points)
+    m.addConstrs(gp.quicksum(x[i, j]
+                 for i in G.predecessors(j)) == 1 for j in dem_points)
 
     # Leave each demand point once
-    m.addConstrs(gp.quicksum(x[i, j] for j in G.successors(i)) == 1 for i in dem_points)
+    m.addConstrs(gp.quicksum(x[i, j]
+                 for j in G.successors(i)) == 1 for i in dem_points)
 
     # Leave the depot k times
     m.addConstr(gp.quicksum(x[depot, j] for j in G.successors(depot)) == k)
 
     # Add the MTZ variable
     u = m.addVars(G.nodes)
-    c = m.addConstrs(u[i] - u[j] + len(G.nodes) * x[i, j] <= len(G.nodes) - 1 for i, j in G.edges if j != depot)
+    c = m.addConstrs(u[i] - u[j] + len(G.nodes) * x[i, j] <=
+                     len(G.nodes) - 1 for i, j in G.edges if j != depot)
 
     # Configure the model to find multiple solutions
     m.setParam(GRB.Param.PoolSolutions, 10)  # Store the 10 best solutions
-    m.setParam(GRB.Param.PoolSearchMode, 2)  # Search for more than one optimal solution
+    # Search for more than one optimal solution
+    m.setParam(GRB.Param.PoolSearchMode, 2)
     # Set the time limit (in seconds)
     time_limit = 60  # for example, 60 seconds
     m.setParam(GRB.Param.TimeLimit, time_limit)
     m.optimize()
     return m
+
 
 def get_optimization_results(model):
     """
@@ -103,6 +116,7 @@ def get_optimization_results(model):
         results['Status'] = 'Not Optimal'
 
     return results
+
 
 def get_dimension_from_tsp(file_path):
     with open(file_path, 'r') as file:
