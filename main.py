@@ -1,9 +1,11 @@
 """ This file use functions or classes from both model.py and output_manager.py.
 It acts as the orchestrator, calling the necessary functions from each module and passing data between them. """
-import networkx as nx
 # main.py
+import networkx as nx
+
 import pandas as pd
-from model import create_graph, parse_coordinates, eucl_dist, solve_TSP_MTZ_problem
+from model import create_graph, parse_coordinates, eucl_dist, solve_TSP_MTZ_problem, get_optimization_results
+
 from output_manager import visualize_graph
 
 def main():
@@ -42,10 +44,14 @@ def main():
     print(cities)  # Assuming you want to print this based on your original script
     model = solve_TSP_MTZ_problem(G, dem_points, depot, k)
     # Assuming model is the returned Gurobi model from solve_TSP_MTZ_problem
+    
+    
+    
     x_vars = model.getVars()
     x = {e: x_var for e, x_var in zip(G.edges, x_vars)}
+    results = get_optimization_results(model)
 
-    visualize_graph(G,depot,nx,x,my_pos)  # If graph visualization is needed
+    visualize_graph(G,depot,nx,x,my_pos,results)  # If graph visualization is needed
 
 
 if __name__ == "__main__":
