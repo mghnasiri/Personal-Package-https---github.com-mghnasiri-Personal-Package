@@ -32,4 +32,6 @@ def visualize_graph(G, depot, nx, x, my_pos, results,dataset_name_with_extension
     ax2.table(cellText=[list(results.values())], colLabels=list(results.keys()), cellLoc='center', loc='center')
 
     plt.tight_layout()
-    plt.show()
+    plt.show
+   
+
