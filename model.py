@@ -81,7 +81,7 @@ def solve_TSP_MTZ_problem(G, dem_points, depot, k):
     # Search for more than one optimal solution
     m.setParam(GRB.Param.PoolSearchMode, 2)
     # Set the time limit (in seconds)
-    time_limit = 60  # for example, 60 seconds
+    time_limit = 600  # for example, 60 seconds
     m.setParam(GRB.Param.TimeLimit, time_limit)
     m.optimize()
     return m
