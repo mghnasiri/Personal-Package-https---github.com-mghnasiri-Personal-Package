@@ -35,7 +35,7 @@ def wrap_text(text, char_limit):
     wrapped_text += line
     return wrapped_text
 
-def visualize_graph(G, depot, nx, x, my_pos, results, dataset_name_with_extension):
+def visualize_graph(G, depot, nx, x, my_pos, results, dataset_name_with_extension, file_path):
     # Create a figure with three subplots arranged vertically
     fig, (ax1, ax3, ax2) = plt.subplots(3, 1, figsize=(10, 8), gridspec_kw={'height_ratios': [2, 0.5, 1]})
     fig.subplots_adjust(hspace=0.5, top=0.93) # Adjust the space between subplots
@@ -79,4 +79,4 @@ def visualize_graph(G, depot, nx, x, my_pos, results, dataset_name_with_extensio
     #table.scale(1.2, 1.2)
 
     plt.tight_layout()
-    plt.show()
+    plt.savefig(file_path) 
