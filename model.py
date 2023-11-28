@@ -1,4 +1,4 @@
-""" Contains the core logic of your model.
+""" Contains the core logic of model.
 This file  include functions or classes that define your model's behavior, calculations, data processing, etc. """
 # model.py
 import networkx as nx
