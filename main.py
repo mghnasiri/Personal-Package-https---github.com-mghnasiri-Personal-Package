@@ -43,7 +43,9 @@ def main():
                      #'/home/centor.ulaval.ca/ghafomoh/Downloads/ADM-7900/Datasets/TSPLIB/ALL_tsp/d18512.tsp',
                      
                      #Solomon DataSet
-                      '/home/centor.ulaval.ca/ghafomoh/Downloads/ADM-7900/Datasets/Solomon/solomon_dataset/R1/R101.CSV'
+                     '/home/centor.ulaval.ca/ghafomoh/Downloads/ADM-7900/Datasets/Solomon/solomon_dataset/ConvertedR101.tsp',
+
+                      #'/home/centor.ulaval.ca/ghafomoh/Downloads/ADM-7900/Datasets/Solomon/solomon_dataset/R1/R101.CSV'
                      #'/home/centor.ulaval.ca/ghafomoh/Downloads/ADM-7900/Datasets/Solomon/solomon_dataset/R1/R102.CSV'
                      #'/home/centor.ulaval.ca/ghafomoh/Downloads/ADM-7900/Datasets/Solomon/solomon_dataset/R1/R103.CSV'
                      #'/home/centor.ulaval.ca/ghafomoh/Downloads/ADM-7900/Datasets/Solomon/solomon_dataset/R1/R104.CSV'
@@ -111,7 +113,8 @@ def main():
         # If graph visualization is needed
         visualize_graph(G, depot, nx, x, my_pos, results,
                         dataset_name_with_extension, output_file_path)
+ 
 
-
+        
 if __name__ == "__main__":
     main()
